@@ -15,20 +15,7 @@
 </head>
 <body class="bg-gray-100">
     <?php
-    // Database configuration
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "eproject";
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
+    include('./db/conn.php');
     // Generate testing ID (12 digit)
     function generateTestingID($conn) {
         $prefix = "TST";
