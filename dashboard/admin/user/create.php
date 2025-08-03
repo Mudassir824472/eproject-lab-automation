@@ -38,8 +38,8 @@ ob_start();
   <form method="POST">
     <div class="card-body">
       <div class="form-group">
-        <label for="product_id">Full Name</label>
-        <input type="text" name="full_name" class="form-control" placeholder="Full Name"/>
+        <label for="product_id">Username</label>
+        <input type="text" name="username" class="form-control" placeholder="Username"/>
       </div>
 
       <div class="form-group">

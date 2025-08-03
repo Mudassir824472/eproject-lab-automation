@@ -15,7 +15,7 @@ ob_start();
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">User</li>
+              <li class="breadcrumb-item active">Users</li>
             </ol>
           </div>
         </div>
@@ -30,7 +30,7 @@ ob_start();
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">User</h3>
+                <h3 class="card-title">Users</h3>
 
                 <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
@@ -50,36 +50,27 @@ ob_start();
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>User</th>
+                      <th>Username</th>
+                      <th>Role</th> 
                       <th>Date</th>
-                      <th>Role</th>
                     </tr>
                   </thead>
                   <tbody>
+                  <?php 
+                  $products = $conn->query("SELECT * FROM users");
+                  ?> 
+                  <?php while($product = $products->fetch_assoc()): ?>
+
+
                     <tr>
-                      <td>183</td>
-                      <td>John Doe</td>
-                      <td>11-7-2014</td>
-                      <td><span class="tag tag-success">Manufacturer</span></td>
+                      <td><?php echo $product['id']; ?></td>
+                      <td><?php echo $product['username']; ?></td>
+                      <td><?php echo $product['role']; ?></td>
+                      <td><?php echo $product['created_at']; ?></td>
                     </tr>
-                    <tr>
-                      <td>219</td>
-                      <td>Alexander Pierce</td>
-                      <td>11-7-2014</td>
-                      <td><span class="tag tag-warning">Manufacturer</span></td>
-                    </tr>
-                    <tr>
-                      <td>657</td>
-                      <td>Bob Doe</td>
-                      <td>11-7-2014</td>
-                      <td><span class="tag tag-primary">Manufacturer</span></td>
-                    </tr>
-                    <tr>
-                      <td>175</td>
-                      <td>Mike Doe</td>
-                      <td>11-7-2014</td>
-                      <td><span class="tag tag-danger">Manufacturer</span></td>
-                    </tr>
+
+
+                  <?php endwhile; ?> 
                   </tbody>
                 </table>
               </div>

@@ -35,17 +35,17 @@ ob_start();
   <!-- /.card-header -->
 
   <!-- form start -->
-  <form method="POST">
+  <form method="POST" action="../../../db/producttesting.php">
     <div class="card-body">
       <div class="form-group">
-        <label for="product_id">Product ID</label>
+        <label for="product_id">Product</label>
         <?php 
-        $products = $conn->query("SELECT product_id FROM products");
+        $products = $conn->query("SELECT name,product_id FROM products");
         ?>
         <select name="product_id" id="product_id" required class="form-control">
           <option value="">Select Product</option>
           <?php while($product = $products->fetch_assoc()): ?>
-            <option value="<?php echo $product['product_id']; ?>"><?php echo $product['product_id']; ?></option>
+            <option value="<?php echo $product['product_id']; ?>"><?php echo $product['name']; ?></option>
           <?php endwhile; ?>
         </select>
       </div>

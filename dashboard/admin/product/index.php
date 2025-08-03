@@ -50,41 +50,33 @@ ob_start();
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>User</th>
-                      <th>Date</th>
+                      <th>Name</th>
+                      <th>Code</th>
+                      <th>Revision</th>
+                      <th>Manufacturing Number</th>
                       <th>Status</th>
-                      <th>Reason</th>
                     </tr>
                   </thead>
                   <tbody>
+
+                  <?php 
+                  $products = $conn->query("SELECT * FROM products");
+                  ?> 
+                  <?php while($product = $products->fetch_assoc()): ?>
+
+
                     <tr>
-                      <td>183</td>
-                      <td>John Doe</td>
-                      <td>11-7-2014</td>
-                      <td><span class="tag tag-success">Approved</span></td>
-                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                      <td><?php echo $product['product_id']; ?></td>
+                      <td><?php echo $product['name']; ?></td>
+                      <td><?php echo $product['product_code']; ?></td>
+                      <td><?php echo $product['revision']; ?></td>
+                      <td><?php echo $product['manufacturing_number']; ?></td>
+                      <td><span class="tag tag-danger"><?php echo $product['status']; ?></span></td>
                     </tr>
-                    <tr>
-                      <td>219</td>
-                      <td>Alexander Pierce</td>
-                      <td>11-7-2014</td>
-                      <td><span class="tag tag-warning">Pending</span></td>
-                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                    </tr>
-                    <tr>
-                      <td>657</td>
-                      <td>Bob Doe</td>
-                      <td>11-7-2014</td>
-                      <td><span class="tag tag-primary">Approved</span></td>
-                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                    </tr>
-                    <tr>
-                      <td>175</td>
-                      <td>Mike Doe</td>
-                      <td>11-7-2014</td>
-                      <td><span class="tag tag-danger">Denied</span></td>
-                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                    </tr>
+
+
+                  <?php endwhile; ?> 
+                    
                   </tbody>
                 </table>
               </div>

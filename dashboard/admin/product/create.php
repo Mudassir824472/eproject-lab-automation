@@ -34,9 +34,13 @@ ob_start();
               <h3 class="card-title">Add Product</h3>
             </div>
             <!-- /.card-header -->
-
+            <?php
+            if(isset($_SESSION['message'])){
+              echo $_SESSION['message'];
+            }
+            ?>
             <!-- form start -->
-            <form method="POST">
+            <form method="POST" action="../../../db/product.php">
               <div class="card-body">
                   <div class="row">
                       <div class="col-md-6">
@@ -46,8 +50,13 @@ ob_start();
                 </div>
 
                 <div class="form-group">
+                  <label for="product_name">Product Name</label>
+                  <input type="text" class="form-control" id="product_name" name="product_name" placeholder="e.g. SWITCH" required>
+                </div>
+
+                <div class="form-group">
                   <label for="product_code">Product Code</label>
-                  <input type="text" class="form-control" id="product_code" name="product_code" placeholder="e.g. SWITCH001" required>
+                  <input type="text" class="form-control" id="product1_code" name="product_code" placeholder="e.g. SWITCH001" required>
                 </div>
                       </div>
                       <div class="col-md-6">
