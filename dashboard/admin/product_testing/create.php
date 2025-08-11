@@ -40,10 +40,9 @@ ob_start();
       <div class="form-group">
         <label for="product_id">Product</label>
         <?php 
-        $products = $conn->query("SELECT name,product_id FROM products");
+        $products = $conn->query("SELECT name,product_id FROM products WHERE product_id='".$_GET['pid']."'");
         ?>
-        <select name="product_id" id="product_id" required class="form-control">
-          <option value="">Select Product</option>
+        <select name="product_id" id="product_id" required class="form-control"> 
           <?php while($product = $products->fetch_assoc()): ?>
             <option value="<?php echo $product['product_id']; ?>"><?php echo $product['name']; ?></option>
           <?php endwhile; ?>
@@ -53,7 +52,7 @@ ob_start();
       <div class="form-group">
         <label for="testing_type">Testing Type</label>
         <select name="testing_type" id="testing_type" required class="form-control">
-          <option value="">Select Testing Type</option>
+          <option value="">Select Testing Type</option> 
           <option value="Insulation Resistance">Insulation Resistance</option>
           <option value="Dielectric Strength">Dielectric Strength</option>
           <option value="Temperature Rise">Temperature Rise</option>

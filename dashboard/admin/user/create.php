@@ -35,7 +35,7 @@ ob_start();
   <!-- /.card-header -->
 
   <!-- form start -->
-  <form method="POST">
+  <form method="POST" action="../../../db/adduser.php">
     <div class="card-body">
       <div class="form-group">
         <label for="product_id">Username</label>

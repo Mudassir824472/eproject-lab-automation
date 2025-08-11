@@ -38,12 +38,12 @@ if (isset($_POST['add_test'])) {
     if ($conn->query($sql) === TRUE) {
         header("Location: ../dashboard/admin/product_testing/create.php");
         // Update product status if test failed and status is Re-Making
-        if ($result == 'Fail' && $status == 'Re-Making') {
-            $update_sql = "UPDATE products SET status = 'Re-Making' WHERE product_id = '$product_id'";
+        // if ($result == 'Fail' && $status == 'Re-Making') {
+            $update_sql = "UPDATE products SET status = '$status' WHERE product_id = '$product_id'";
             $conn->query($update_sql);
-        }
-        $message = "Test added successfully! Testing ID: $testing_id";
-
+        // }
+        $_SESSION['message'] = "Test added successfully! Testing ID: $testing_id";
+        header("Location: ../dashboard/admin/product_testing/product_request.php");
     } else {
         $message = "Error: " . $sql . "<br>" . $conn->error;
     }

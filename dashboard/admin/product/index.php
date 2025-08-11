@@ -54,7 +54,9 @@ ob_start();
                       <th>Code</th>
                       <th>Revision</th>
                       <th>Manufacturing Number</th>
+                      <th>Date</th>
                       <th>Status</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -71,7 +73,9 @@ ob_start();
                       <td><?php echo $product['product_code']; ?></td>
                       <td><?php echo $product['revision']; ?></td>
                       <td><?php echo $product['manufacturing_number']; ?></td>
+                      <td><span class="tag tag-danger"><?php echo $product['created_at']; ?></span></td>
                       <td><span class="tag tag-danger"><?php echo $product['status']; ?></span></td>
+                      <td><span class="tag tag-danger"><a href="edit.php?pid=<?= $product['product_id'] ?>">Edit</a></span></td>
                     </tr>
 
 

@@ -1,6 +1,6 @@
 <?php
 include('../../../db/conn.php');
-$title = "Home Page";
+$title = "Product Request";
 // Start output buffering to capture content
 ob_start();
 ?>
@@ -10,12 +10,12 @@ ob_start();
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Product Testing </h1>
+            <h1>Product Request </h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Simple Tables</li>
+              <li class="breadcrumb-item active">Product Request</li>
             </ol>
           </div>
         </div>
@@ -30,7 +30,7 @@ ob_start();
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Product Testings</h3>
+                <h3 class="card-title">Product Request</h3>
 
                 <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
@@ -44,6 +44,11 @@ ob_start();
                   </div>
                 </div>
               </div>
+              <?php
+            if(isset($_SESSION['message'])){
+              echo $_SESSION['message'];
+            }
+            ?>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap">
@@ -52,18 +57,17 @@ ob_start();
                       <th>ID</th>
                       <th>Name</th>
                       <th>Code</th>
-                      <th>Testing Type</th>
-                      <th>Result</th>
-                      <th>Remarks</th>
+                      <th>Revision</th>
+                      <th>Manufacturing Number</th>
+                      <th>Date</th>
                       <th>Status</th>
-
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
 
                   <?php 
-                  $products = $conn->query("SELECT * FROM testing as tng LEFT JOIN products as pdt ON pdt.product_id=tng.product_id ");
-                   
+                  $products = $conn->query("SELECT * FROM products where status='pending'");
                   ?> 
                   <?php while($product = $products->fetch_assoc()): ?>
 
@@ -72,10 +76,11 @@ ob_start();
                       <td><?php echo $product['product_id']; ?></td>
                       <td><?php echo $product['name']; ?></td>
                       <td><?php echo $product['product_code']; ?></td>
-                      <td><span class="tag tag-danger"><?php echo $product['testing_type']; ?></span></td>
-                      <td><span class="tag tag-danger"><?php echo $product['result']; ?></span></td>
-                      <td><span class="tag tag-danger"><?php echo $product['remarks']; ?></span></td>
+                      <td><?php echo $product['revision']; ?></td>
+                      <td><?php echo $product['manufacturing_number']; ?></td>
+                      <td><span class="tag tag-danger"><?php echo $product['created_at']; ?></span></td>
                       <td><span class="tag tag-danger"><?php echo $product['status']; ?></span></td>
+                      <td><span class="tag tag-danger"><a href="create.php?pid=<?= $product['product_id'] ?>">Test Product</a></span></td>
                     </tr>
 
 

@@ -79,16 +79,22 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="../product_testing/create.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add</p>
                 </a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a href="../product_testing/index.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>View</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../product_testing/product_request.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Product Request</p>
                 </a>
               </li>
             </ul>
