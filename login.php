@@ -19,7 +19,7 @@ if (isset($_POST['login'])) {
     $user = $result->fetch_assoc();
     $_SESSION['username'] = $username;
     $_SESSION['role'] = $user['role'];
-    header("Location: dashboard/admin/index.php");
+    header("Location: dashboard/admin/dashboard.php");
   } else {
     $error = "Invalid Username or Password!";
   }
