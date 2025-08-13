@@ -37,7 +37,7 @@
                         <span>+012 345 6789</span>
                     </div>
                 </div>
-                <a href="index.html" class="h1 text-white mb-0">Lab<span class="text-dark">sky</span></a>
+                <a href="index.php" class="h1 text-white mb-0">Lab<span class="text-dark">sky</span></a>
                 <div class="d-flex">
                     <i class="bi bi-envelope fs-2"></i>
                     <div class="ms-3">

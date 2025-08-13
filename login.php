@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if(isset($_SESSION['username'])) {
+if (isset($_SESSION['username'])) {
   header("Location: dashboard/admin/product/index.php");
   exit;
 }
@@ -28,39 +28,94 @@ if (isset($_POST['login'])) {
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Login</title>
+  <title>Login - Lab Test</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    .split {
+      display: flex;
+      height: 100vh;
+    }
+    .left {
+      flex: 1;
+      background: url('img/lab-login-bg.jpg') no-repeat center center;
+      background-size: cover;
+    }
+    .right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+    }
+    .login-box {
+      width: 80%;
+      max-width: 350px;
+    }
+    .login-box h2 {
+      font-weight: bold;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+    .form-control {
+      border-radius: 20px;
+    }
+    .btn-primary {
+      border-radius: 20px;
+      background-color: #001a66;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #000d33;
+    }
+    .create-account {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+    }
+    .create-account a {
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
 </head>
-<body class="bg-light">
+<body>
 
-<div class="container vh-100 d-flex justify-content-center align-items-center">
-  <div class="col-md-4">
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <h4 class="text-center mb-4">🔐 Login</h4>
+<div class="split">
+  <div class="left"></div>
+  <div class="right">
+    <div class="login-box">
+      <div class="text-center mb-4">
+        <img src="img/lab logo.png" alt="Logo" height="50">
+        <h2>Welcome to lab test</h2>
+      </div>
 
-        <?php if(isset($error)): ?>
-          <div class="alert alert-danger p-2 text-center">
-            <?php echo $error; ?>
-          </div>
-        <?php endif; ?>
+      <?php if(isset($error)): ?>
+        <div class="alert alert-danger p-2 text-center">
+          <?php echo $error; ?>
+        </div>
+      <?php endif; ?>
 
-        <form method="POST">
-          <div class="mb-3">
-            <label class="form-label">Username</label>
-            <input type="text" name="username" class="form-control" placeholder="Enter username" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" placeholder="Enter password" required>
-          </div>
-          <button type="submit" name="login" class="btn btn-primary w-100">Login</button>
-        </form>
+      <form method="POST">
+        <div class="mb-3">
+          <input type="text" name="username" class="form-control" placeholder="User name or email" required>
+        </div>
+        <div class="mb-3">
+          <input type="password" name="password" class="form-control" placeholder="Password" required>
+        </div>
+        <button type="submit" name="login" class="btn btn-primary w-100">Login</button>
+      </form>
+
+      <div class="create-account">
+        New user? <a href="#">create a account</a>
       </div>
     </div>
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
