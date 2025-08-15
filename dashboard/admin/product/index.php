@@ -75,7 +75,7 @@ ob_start();
                       <td><?php echo $product['manufacturing_number']; ?></td>
                       <td><span class="tag tag-danger"><?php echo $product['created_at']; ?></span></td>
                       <td><span class="tag tag-danger"><?php echo $product['status']; ?></span></td>
-                      <td><span class="tag tag-danger"><a href="edit.php?pid=<?= $product['product_id'] ?>">Edit</a></span></td>
+                      <td><a href="edit.php?pid=<?= $product['product_id']; ?>" class="btn btn-sm btn-primary" title="Edit Product"><i class="fas fa-edit"></i> Edit</a></td>
                     </tr>
 
 

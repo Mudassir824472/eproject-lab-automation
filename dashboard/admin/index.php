@@ -11,7 +11,7 @@ $username = $_SESSION['username'];
 
 // stats queries
 $total_products = $conn->query("SELECT COUNT(*) AS total FROM products")->fetch_assoc()['total'];
-$total_completed = $conn->query("SELECT COUNT(*) AS total FROM testing WHERE status='Completed'")->fetch_assoc()['total'];
+$total_completed = $conn->query("SELECT COUNT(*) AS total FROM products WHERE status='Completed'")->fetch_assoc()['total'];
 $total_pending = $conn->query("SELECT COUNT(*) AS total FROM testing WHERE status='Pending'")->fetch_assoc()['total'];
 $total_users = $conn->query("SELECT COUNT(*) AS total FROM users")->fetch_assoc()['total'];
 
@@ -76,7 +76,7 @@ ob_start();
             <?php
             $boxes = [
                 ["color" => "info", "count" => $total_products, "label" => "Total Products", "icon" => "fas fa-boxes", "link" => "product/index.php"],
-                ["color" => "success", "count" => $total_completed, "label" => "Tests Completed", "icon" => "fas fa-check-circle", "link" => "testing/view.php"],
+                ["color" => "success", "count" => $total_completed, "label" => "Tests Completed", "icon" => "fas fa-check-circle", "link" => "product/index.php"],
                 ["color" => "warning", "count" => $total_pending, "label" => "Pending Tests", "icon" => "fas fa-hourglass-half", "link" => "product_testing/product_request.php"],
                 ["color" => "danger", "count" => $total_users, "label" => "Users", "icon" => "fas fa-users", "link" => "user/index.php"]
             ];
