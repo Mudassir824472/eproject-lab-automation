@@ -4,7 +4,7 @@ include '../../db/conn.php';
 
 // redirect if not logged in
 if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
+    header("Location: index.php");
     exit;
 }
 $username = $_SESSION['username'];
@@ -15,6 +15,32 @@ $total_completed = $conn->query("SELECT COUNT(*) AS total FROM testing WHERE sta
 $total_pending = $conn->query("SELECT COUNT(*) AS total FROM testing WHERE status='Pending'")->fetch_assoc()['total'];
 $total_users = $conn->query("SELECT COUNT(*) AS total FROM users")->fetch_assoc()['total'];
 
+// product status for chart
+$product_status_data = $conn->query("
+    SELECT status, COUNT(*) as total
+    FROM products
+    GROUP BY status
+");
+$product_status_labels = [];
+$product_status_counts = [];
+while ($row = $product_status_data->fetch_assoc()) {
+    $product_status_labels[] = $row['status'];
+    $product_status_counts[] = $row['total'];
+}
+
+// testing results for chart
+$test_results_data = $conn->query("
+    SELECT result, COUNT(*) as total
+    FROM testing
+    GROUP BY result
+");
+$test_results_labels = [];
+$test_results_counts = [];
+while ($row = $test_results_data->fetch_assoc()) {
+    $test_results_labels[] = $row['result'];
+    $test_results_counts[] = $row['total'];
+}
+
 // recent tests
 $recent_tests = $conn->query("
     SELECT t.testing_id, p.name AS product_name, t.status, t.created_at
@@ -23,196 +49,131 @@ $recent_tests = $conn->query("
     ORDER BY t.created_at DESC
     LIMIT 5
 ");
+
+$title = "Dashboard";
+ob_start();
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f6f9;
-        }
-        .main-content {
-            margin-left: 250px;
-            padding: 20px;
-            width: calc(100% - 250px);
-        }
-       
-        .info-box {
-            display: flex;
-            background: #fff;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-        }
-        .info-box-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 70px;
-            height: 70px;
-            font-size: 30px;
-            color: white;
-            border-radius: 5px;
-            margin-right: 15px;
-        }
-        .info-box-content {
-            flex: 1;
-        }
-        .info-box-text {
-            font-size: 14px;
-            color: #6c757d;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-        .info-box-number {
-            font-size: 22px;
-            font-weight: bold;
-        }
-        .progress {
-            height: 7px;
-            margin-top: 5px;
-        }
-        .small-box {
-            border-radius: 5px;
-            position: relative;
-            display: block;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-            color: white;
-        }
-        .small-box > .inner {
-            padding: 15px;
-        }
-        .small-box h3 {
-            font-size: 38px;
-            font-weight: bold;
-            margin: 0 0 10px 0;
-            white-space: nowrap;
-            padding: 0;
-        }
-        .small-box p {
-            font-size: 15px;
-        }
-        .small-box .icon {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 70px;
-            color: rgba(0,0,0,0.15);
-            transition: all .3s linear;
-        }
-        .small-box:hover .icon {
-            font-size: 75px;
-        }
-        .small-box-footer {
-            display: block;
-            padding: 8px 15px;
-            background: rgba(0,0,0,0.1);
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 0 0 5px 5px;
-        }
-        .small-box-footer:hover {
-            background: rgba(0,0,0,0.15);
-        }
-        .bg-primary { background-color: #007bff !important; }
-        .bg-success { background-color: #28a745 !important; }
-        .bg-info { background-color: #17a2b8 !important; }
-        .bg-warning { background-color: #ffc107 !important; }
-        .bg-danger { background-color: #dc3545 !important; }
-        .bg-secondary { background-color: #6c757d !important; }
-        .bg-purple { background-color: #6f42c1 !important; }
-        .bg-pink { background-color: #e83e8c !important; }
-        .bg-teal { background-color: #20c997 !important; }
-        .breadcrumb {
-            background-color: transparent;
-            padding: 0;
-            margin-bottom: 20px;
-        }
-        
-     
-       
-    </style>
-</head>
-<body>
-<div class="wrapper">
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Breadcrumb -->
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i> Home</a></li>
-            </ol>
-        </nav>
+<!-- Content Header -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6"><h1>Dashboard</h1></div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
 
-        <!-- Info Boxes -->
+<!-- Stats Boxes -->
+<section class="content">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3">
-                <div class="small-box bg-info">
-                    <div class="inner">
-                        <h3><?php echo $total_products; ?></h3>
-                        <p>Total Products</p>
+            <?php
+            $boxes = [
+                ["color" => "info", "count" => $total_products, "label" => "Total Products", "icon" => "fas fa-boxes", "link" => "product/index.php"],
+                ["color" => "success", "count" => $total_completed, "label" => "Tests Completed", "icon" => "fas fa-check-circle", "link" => "testing/view.php"],
+                ["color" => "warning", "count" => $total_pending, "label" => "Pending Tests", "icon" => "fas fa-hourglass-half", "link" => "product_testing/product_request.php"],
+                ["color" => "danger", "count" => $total_users, "label" => "Users", "icon" => "fas fa-users", "link" => "user/index.php"]
+            ];
+            foreach ($boxes as $b) {
+                echo "
+                <div class='col-md-3'>
+                    <div class='small-box bg-{$b['color']}'>
+                        <div class='inner'>
+                            <h3>{$b['count']}</h3>
+                            <p>{$b['label']}</p>
+                        </div>
+                        <div class='icon'><i class='{$b['icon']}'></i></div>
+                        <a href='{$b['link']}' class='small-box-footer'>More info <i class='fas fa-arrow-circle-right'></i></a>
                     </div>
-                    <div class="icon">
-                        <i class="fas fa-boxes"></i>
-                    </div>
-                    <a href="product/view.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
+                </div>";
+            }
+            ?>
+        </div>
+
+        <!-- Charts -->
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="productStatusChart"></canvas>
             </div>
-            <div class="col-md-3">
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3><?php echo $total_completed; ?></h3>
-                        <p>Tests Completed</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <a href="testing/view.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
+            <div class="col-md-6">
+                <canvas id="testResultsChart"></canvas>
             </div>
-            <div class="col-md-3">
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3><?php echo $total_pending; ?></h3>
-                        <p>Pending Tests</p>
+        </div>
+
+        <!-- Recent Tests -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header"><h3 class="card-title">Recent Tests</h3></div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Test ID</th>
+                                    <th>Product</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php while ($test = $recent_tests->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?= $test['testing_id'] ?></td>
+                                    <td><?= $test['product_name'] ?></td>
+                                    <td><?= $test['status'] ?></td>
+                                    <td><?= date("Y-m-d H:i", strtotime($test['created_at'])) ?></td>
+                                </tr>
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="icon">
-                        <i class="fas fa-hourglass-half"></i>
-                    </div>
-                    <a href="testing/view.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="small-box bg-danger">
-                    <div class="inner">
-                        <h3><?php echo $total_users; ?></h3>
-                        <p>Users</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <a href="users/view.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>
 
-        
-
-       
     </div>
-</div>
+</section>
 
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const productStatusChart = new Chart(document.getElementById('productStatusChart'), {
+        type: 'pie',
+        data: {
+            labels: <?= json_encode($product_status_labels) ?>,
+            datasets: [{
+                data: <?= json_encode($product_status_counts) ?>,
+                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545']
+            }]
+        }
+    });
 
+    const testResultsChart = new Chart(document.getElementById('testResultsChart'), {
+    type: 'bar',
+    data: {
+        labels: <?= json_encode($test_results_labels) ?>,
+        datasets: [{
+            label: 'Test Results',
+            data: <?= json_encode($test_results_counts) ?>,
+            backgroundColor: <?= json_encode(
+                array_map(function($label) {
+                    return strtolower($label) === 'fail' ? '#dc3545' : '#007bff';
+                }, $test_results_labels)
+            ) ?>
+        }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } } }
+});
 
+</script>
+
+<?php
+$content = ob_get_clean();
+include 'layout/dashboard.php';
+?>

@@ -6,10 +6,10 @@ $title = "Add User";
 if (isset($_POST['add_test'])) {
     $username = $_POST['username'];
     $role = $_POST['testing_type'];
-    $password = $_POST['password'];
+    $password = md5($_POST['password']); // Hash the password before storing
 
     // Simple insert query
-    $sql = "INSERT INTO users (username, role , password) 
+    $sql = "INSERT INTO users (username, role, password) 
             VALUES ('$username', '$role', '$password')";
 
     if ($conn->query($sql) === TRUE) {
